@@ -6,6 +6,7 @@ import fetchBooks from '@/lib/fetchBooks'
 import fetchRandomBooks from '@/lib/fetchRandomBooks'
 
 export const getStaticProps = async () => {
+	console.log('인덱스 페이지')
 	const [allBooks, randomBooks] = await Promise.all([
 		fetchBooks(),
 		fetchRandomBooks(),
