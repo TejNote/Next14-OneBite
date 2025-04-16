@@ -1,10 +1,23 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import {
+	GetStaticPropsContext,
+	InferGetServerSidePropsType,
+	InferGetStaticPropsType,
+} from 'next'
 
 import fetchBook from '@/lib/fetchBook'
 
-export const getServerSideProps = async (
-	context: GetServerSidePropsContext,
-) => {
+export const getStaticPaths = async () => {
+	return {
+		paths: [
+			{ params: { id: '1' } },
+			{ params: { id: '2' } },
+			{ params: { id: '3' } },
+		],
+		fallback: false,
+	}
+}
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
 	const id = context.params?.id
 
 	const book = await fetchBook(id as string)
@@ -14,9 +27,7 @@ export const getServerSideProps = async (
 	}
 }
 
-function Page({
-	book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function Page({ book }: InferGetStaticPropsType<typeof getStaticProps>) {
 	return (
 		<div className='flex flex-col gap-[10px]'>
 			<div
