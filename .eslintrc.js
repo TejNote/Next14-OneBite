@@ -4,6 +4,11 @@ module.exports = {
 		es2021: true,
 		node: true,
 	},
+	settings: {
+		'import/resolver': {
+			typescript: {},
+		},
+	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: {
@@ -16,7 +21,6 @@ module.exports = {
 		'eslint:recommended',
 		'plugin:import/recommended',
 		'plugin:@typescript-eslint/recommended',
-		'next/core-web-vitals',
 		'prettier',
 	],
 	rules: {
@@ -68,6 +72,19 @@ module.exports = {
 				ignoreDeclarationSort: true,
 				ignoreMemberSort: false,
 				allowSeparatedGroups: true,
+			},
+		],
+		'no-restricted-imports': [
+			'error',
+			{
+				paths: [
+					{
+						name: 'next/navigation',
+						importNames: ['usePathname'],
+						message:
+							'usePathname 대신 useTenantPathname을 사용해 주세요. 배포 환경에서는 usePathname이 정확한 경로를 반환하지 않습니다.',
+					},
+				],
 			},
 		],
 	},
