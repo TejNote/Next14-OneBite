@@ -5,6 +5,7 @@ import {
 } from 'next'
 
 import fetchBook from '@/lib/fetchBook'
+import { useRouter } from 'next/router'
 
 export const getStaticPaths = async () => {
 	return {
@@ -13,7 +14,7 @@ export const getStaticPaths = async () => {
 			{ params: { id: '2' } },
 			{ params: { id: '3' } },
 		],
-		fallback: false,
+		fallback: true,
 	}
 }
 
@@ -22,12 +23,27 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
 	const book = await fetchBook(id as string)
 
+	if (!book) {
+		return {
+			notFound: true,
+		}
+	}
+
 	return {
 		props: { book },
 	}
 }
 
 function Page({ book }: InferGetStaticPropsType<typeof getStaticProps>) {
+	const router = useRouter()
+	if (router.isFallback) {
+		return <div>로딩 중입니다.</div>
+	}
+
+	if (!book) {
+		return <div>문제가 발생하였습니다. 다시 시도 해주세요.</div>
+	}
+
 	return (
 		<div className='flex flex-col gap-[10px]'>
 			<div
