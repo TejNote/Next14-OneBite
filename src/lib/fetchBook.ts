@@ -2,7 +2,7 @@ import { BookData } from '@/types'
 
 export default async function fetchBook(id: string): Promise<BookData | null> {
 	try {
-		const url = `http://localhost:12345/book/${id}`
+		const url = `https://onebite-books-server-mocha.vercel.app/book/${id}`
 
 		const res = await fetch(url)
 		if (!res.ok) {
