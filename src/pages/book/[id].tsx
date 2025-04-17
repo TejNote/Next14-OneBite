@@ -34,7 +34,20 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 function Page({ book }: InferGetStaticPropsType<typeof getStaticProps>) {
 	const router = useRouter()
 	if (router.isFallback) {
-		return <div>로딩 중입니다.</div>
+		return (
+			<>
+				<Head>
+					<title>한입북스</title>
+					<meta property='og:image' content='/thumbnail.png' />
+					<meta property='og:title' content='한입북스' />
+					<meta
+						property='og:description'
+						content='한입북스에 등록된 도서들을 만나보세요.'
+					/>
+				</Head>
+				<div>로딩 중입니다.</div>
+			</>
+		)
 	}
 
 	if (!book) {
